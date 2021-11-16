@@ -185,11 +185,6 @@ def parse_args(argv):
 
 
 def main(argv):
-    """
-    year: year in which we will opperate
-    day: the last day of the month (or current date) max 25th
-    """
-
     args = parse_args(argv)
 
     if args.y and args.d:
