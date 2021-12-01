@@ -1,3 +1,4 @@
 secrets/**
 !secrets/**.example
 env
+local_src.txt

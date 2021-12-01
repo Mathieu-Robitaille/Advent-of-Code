@@ -26,3 +26,8 @@ There are optional cli args if you wanna test stuff or for wtv.
 annoy.py
 -----
 This texts you if you havent started, or havent completed today's challenge yet. Get cracking.
+You should populate ```local_src.txt``` if you intend to source your project in another dir, it will then check for the path in that file. 
+
+Ex: ```local_src.txt``` contains ```/home/$USER/git/src-advent-of-code/src```
+
+We check ```/home/$USER/git/src-advent-of-code/src/$YEAR/$DAY/```
