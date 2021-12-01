@@ -48,6 +48,7 @@ def time_to_annoy(message_body: str = "DO TODAY'S ADVENT."):
 
 
 if not todays_challenge_path.is_dir():
+    print(f"{todays_challenge_path.as_posix()} is not a path, yelling.")
     time_to_annoy(
         f"Bruh, you haven't even started... its fuckin {datetime.datetime.now().strftime('%H:%M:%S')} get goin u beesh.")
     quit()
@@ -56,7 +57,11 @@ is_complete_str = "Both parts of this puzzle are complete!"
 
 with open(cookie_file) as f:
     cookie = f.read()
-    url = f"https://adventofcode.com/{year}/day/{day}"
+
+    # Because there's no leading zero...
+    url_day = day.strip('0')
+
+    url = f"https://adventofcode.com/{year}/day/{url_day}"
     payload = {"cookie": f"session={cookie}"}
     r = requests.get(url, headers=payload)
     result = r.content.decode('utf-8')
