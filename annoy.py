@@ -59,7 +59,7 @@ with open(cookie_file) as f:
     cookie = f.read()
 
     # Because there's no leading zero...
-    url_day = day.strip('0')
+    url_day = day.lstrip('0')
 
     url = f"https://adventofcode.com/{year}/day/{url_day}"
     payload = {"cookie": f"session={cookie}"}
