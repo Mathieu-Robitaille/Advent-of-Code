@@ -111,6 +111,11 @@ def copy_missing_templates(challenge_code_path):
 
     logging.debug(f"Copying files over to new structure.")
     for file in files_to_create:
+
+        # Dont overwrite existing files
+        if file[1].exists():
+            continue
+
         # as_posix returns as a valid path in windows, even tho you should feel shame for using windows
         src = file[0].as_posix()
         dst = file[1].as_posix()
@@ -203,6 +208,7 @@ def main(argv):
     if args.i:
         user_warning(source, year)
 
+    # Are we doing a verbose or no?
     if args.v:
         logging.basicConfig(level=logging.DEBUG)
     else:
