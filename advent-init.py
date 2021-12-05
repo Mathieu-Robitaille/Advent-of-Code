@@ -132,7 +132,7 @@ def get_missing_input(path: Path, cookie: str):
     dst = Path(path, "input.txt")
     if dst.is_file():
         logging.debug(f"The file already exists.\n -> file: {dst}")
-        pass
+        return
     year, day = path.parts[-2], path.parts[-1].strip("0")
     url = f"https://adventofcode.com/{year}/day/{day}/input"
     with open(dst, "w") as f:
@@ -216,6 +216,8 @@ def main(argv):
 
     cookie = get_cookie()
     for path in create_missing_days(source, year, day):
+        logging.debug("--------------")
+        logging.debug(f"Looping with the following base path.\n -> path: {path}")
         copy_missing_templates(path)
         get_missing_input(path, cookie)
 

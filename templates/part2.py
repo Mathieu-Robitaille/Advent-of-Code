@@ -6,10 +6,5 @@ from sys import modules
 src = Path(modules['__main__'].__file__).resolve().parent
 input_file_path = Path(src, "input.txt")
 
-
-def main():
+with open(input_file_path) as f:
     pass
-
-
-if __name__ == "__main__":
-    main()
