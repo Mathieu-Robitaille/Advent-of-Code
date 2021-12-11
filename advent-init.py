@@ -85,15 +85,15 @@ def get_cookie():
     return cookie
 
 
-def copy_missing_templates(challenge_code_path):
+def copy_missing_templates(source, challenge_code_path):
     # Is this THE most complicated way? yes. (without recursion and manually copying files)
     # Is this something I'm doing for fun? yes
 
     # Get all objects from the generator
-    objects = [x for x in TEMPLATES_PATH.glob('**/*')]
+    objects = [x for x in source.glob('**/*')]
 
     # We want to ommit the path to the templates part and re-construct the dir tree elsewhere
-    ommit = len(TEMPLATES_PATH.parts)
+    ommit = len(source.parts)
 
     # Get each dir to pass, this already returns the deepest dir so we're not worried about wasting time on parents.
     directories_to_create = [
@@ -105,7 +105,6 @@ def copy_missing_templates(challenge_code_path):
         (x, Path(challenge_code_path, *x.parts[ommit:])) for x in objects if x.is_file()
     ]
 
-    logging.debug(f"Creating directory structure from template.")
     for dir in directories_to_create:
         create_directory(dir)
 
@@ -185,6 +184,12 @@ def parse_args(argv):
         action='store_true',
         help="Confirm before starting"
     )
+    parser.add_argument(
+        "-l",
+        type=str,
+        default="python",
+        help="Specify the language to be used. It needs to have a directory in templates."
+    )
     args = parser.parse_args(argv)
     return args
 
@@ -214,12 +219,21 @@ def main(argv):
     else:
         logging.basicConfig(level=logging.INFO)
 
-    cookie = get_cookie()
-    for path in create_missing_days(source, year, day):
+    # Maybe people wanna use bad languages? idk, i wont stop them tho.
+    if not (language_path := Path(TEMPLATES_PATH, args.l.lower()).absolute()).is_dir():
         logging.debug("--------------")
-        logging.debug(f"Looping with the following base path.\n -> path: {path}")
-        copy_missing_templates(path)
-        get_missing_input(path, cookie)
+        logging.debug(
+            f"!!!language_path is invalid!!!\n{language_path.as_posix()}")
+        logging.debug("--------------")
+        quit()
+
+    cookie = get_cookie()
+    for destination_path in create_missing_days(source, year, day):
+        logging.debug("--------------")
+        logging.debug(
+            f"Looping with the following base path.\n -> path: {destination_path}")
+        copy_missing_templates(language_path, destination_path)
+        get_missing_input(destination_path, cookie)
 
 
 if __name__ == "__main__":

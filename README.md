@@ -22,6 +22,7 @@ There are optional cli args if you wanna test stuff or for wtv.
 - ```-s``` Specify a non default path for your source. (Default: ```./source/```)
 - ```-v``` Verbose mode. (Warning: very loud)
 - ```-i``` Check if paths are alright before proceeding.
+- ```-l``` Specify the language to be used, so far we have Rust and Python. Default is Python.
 
 annoy.py
 -----
