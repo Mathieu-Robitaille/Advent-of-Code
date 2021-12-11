@@ -31,3 +31,13 @@ You should populate ```local_src.txt``` if you intend to source your project in 
 Ex: ```local_src.txt``` contains ```/home/$USER/git/src-advent-of-code/src```
 
 We check ```/home/$USER/git/src-advent-of-code/src/$YEAR/$DAY/```
+
+
+# Example crontab
+
+```
+0 17 * 12 * .../advent-of-code/env/bin/python3 .../advent-of-code/annoy.py >/dev/null 2>&1
+0 6 * 12 * .../advent-of-code/env/bin/python3 .../advent-of-code/advent-init.py -s .../src-advent-of-code/src/python/ -v >> /var/log/advent/advent.log
+```
+
+.../advent-of-code/env/bin/python3 .../advent-of-code/advent-init.py -s .../src-advent-of-code/src/python/ -v >> /var/log/advent/advent.log
