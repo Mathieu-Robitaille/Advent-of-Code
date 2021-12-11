@@ -133,7 +133,7 @@ def get_missing_input(path: Path, cookie: str):
     if dst.is_file():
         logging.debug(f"The file already exists.\n -> file: {dst}")
         return
-    year, day = path.parts[-2], path.parts[-1].strip("0")
+    year, day = path.parts[-2], path.parts[-1].lstrip("0")
     url = f"https://adventofcode.com/{year}/day/{day}/input"
     with open(dst, "w") as f:
         content = get_remote_content(url, cookie)
