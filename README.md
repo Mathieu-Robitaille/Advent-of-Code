@@ -36,9 +36,49 @@ We check ```/home/$USER/git/src-advent-of-code/src/$YEAR/$DAY/```
 
 # Example crontab
 
-```
-0 17 * 12 * .../advent-of-code/env/bin/python3 .../advent-of-code/annoy.py >/dev/null 2>&1
-0 6 * 12 * .../advent-of-code/env/bin/python3 .../advent-of-code/advent-init.py -s .../src-advent-of-code/src/python/ -v >> /var/log/advent/advent.log
+You'll wanna automate this so you can sit down with your coffee and relax with some AoC.
+
+#### Setup
+```shell
+# make a logging dir
+mkdir $HOME/log/advent
+
+# Create the file
+touch $HOME/log/advent/advent.log
+
+# The sudo is due to default perms on logrotate being 644 root:root
+# its almost like you dont need this!
+cat << EOF | sudo tee -a /etc/logrotate.d/aoc
+$HOME/log/advent/*.log {
+        compress
+        copytruncate
+        delaycompress
+        missingok
+        rotate 1
+        size 10k
+}
+EOF
 ```
 
-.../advent-of-code/env/bin/python3 .../advent-of-code/advent-init.py -s .../src-advent-of-code/src/python/ -v >> /var/log/advent/advent.log
+## The corncob itself
+```
+0 17 * 12 * .../advent-of-code/env/bin/python3 .../advent-of-code/annoy.py >/dev/null 2>&1
+0 6 * 12 * .../advent-of-code/env/bin/python3 .../advent-of-code/advent-init.py -s .../src-advent-of-code/src/python/ -v | tee -a $HOME/log/advent/advent.log
+```
+
+# Example Usage
+
+Say you want to start a python project, or you have one going in ```$GIT_DIR/src-advent-of-code/src/python/```, ```$GIT_DIR``` is some arbitrary root location, it'll be different for everyone. If you dont know whats what just use this 
+```shell
+GIT_DIR=$HOME/git
+```
+```shell
+$GIT_DIR/advent-of-code/env/bin/python3 $GIT_DIR/advent-of-code/advent-init.py -s $GIT_DIR/src-advent-of-code/src/python/ -v | tee -a $HOME/log/advent/advent.log
+```
+
+Or maybe a rust project?
+```shell
+$GIT_DIR/advent-of-code/env/bin/python3 $GIT_DIR/advent-of-code/advent-init.py -s $GIT_DIR/src-advent-of-code/src/rust/ -v -l rust | tee -a $HOME/log/advent/advent.log
+```
+
+Note that I change the dest path ```-s``` cause I like it sperate. You do you tho!
