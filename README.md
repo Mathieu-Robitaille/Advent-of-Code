@@ -82,3 +82,4 @@ $GIT_DIR/advent-of-code/env/bin/python3 $GIT_DIR/advent-of-code/advent-init.py -
 ```
 
 Note that I change the dest path ```-s``` cause I like it sperate. You do you tho!
+from_utf8
