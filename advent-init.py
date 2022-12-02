@@ -77,7 +77,7 @@ def create_missing_days(source: Path, year: str, day: str) -> list:
 
 def get_cookie():
     with open(COOKIE_PATH) as f:
-        cookie = f.read()
+        cookie = f.readline().strip() # the trailling newline can cause some iiiiiissssues
         logging.debug(f"Got a cookie to use.")
     if not cookie:
         logging.debug(f"Could not load cookie.")
